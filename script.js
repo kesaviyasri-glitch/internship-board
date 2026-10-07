@@ -1,10 +1,9 @@
 let internships = [];
 
-// Fetch data from downloaded JSON file
 fetch('data.json')
   .then(response => response.json())
   .then(data => {
-    internships = data;
+    internships = Array.isArray(data) ? data : (data.internships || []);
     renderCards(internships);
   })
   .catch(err => console.error("Error loading JSON:", err));
@@ -12,43 +11,38 @@ fetch('data.json')
 const container = document.getElementById('internshipContainer');
 const searchInput = document.getElementById('searchInput');
 const domainFilter = document.getElementById('domainFilter');
-const emptyState = document.getElementById('emptyState');
 
 function renderCards(data) {
+  if (!container) return;
   container.innerHTML = '';
-  if (data.length === 0) {
-    emptyState.classList.remove('hidden');
-    return;
-  }
-  emptyState.classList.add('hidden');
-
+  
   data.forEach(item => {
     const card = document.createElement('div');
     card.className = 'card';
+    card.style.cssText = 'border: 1px solid #ccc; padding: 15px; margin: 10px 0; border-radius: 8px; background: #fff;';
     card.innerHTML = `
-      <h3>${item.role || item.title}</h3>
-      <p><strong>Company:</strong> ${item.company}</p>
-      <p><strong>Domain:</strong> ${item.domain}</p>
-      <p><strong>Location:</strong> ${item.location}</p>
+      <h3>${item.title || item.role || 'Internship Role'}</h3>
+      <p><strong>Domain:</strong> ${item.domain || 'N/A'}</p>
+      <p><strong>Location:</strong> ${item.location || 'N/A'} (${item.mode || 'N/A'})</p>
+      <p><strong>Openings:</strong> ${item.openings || 'N/A'}</p>
+      <p><strong>Skills:</strong> ${Array.isArray(item.skills) ? item.skills.join(', ') : (item.skills || 'N/A')}</p>
     `;
     container.appendChild(card);
   });
 }
 
-// Search and Filter Functionality
 function filterData() {
-  const query = searchInput.value.toLowerCase();
-  const selectedDomain = domainFilter.value;
+  const query = searchInput ? searchInput.value.toLowerCase() : '';
+  const selectedDomain = domainFilter ? domainFilter.value : 'all';
 
   const filtered = internships.filter(item => {
-    const matchesSearch = (item.role || item.title).toLowerCase().includes(query) ||
-                          item.company.toLowerCase().includes(query);
-    const matchesDomain = selectedDomain === 'all' || item.domain === selectedDomain;
-    return matchesSearch && matchesDomain;
+    const titleMatch = (item.title || item.role || '').toLowerCase().includes(query);
+    const domainMatch = selectedDomain === 'all' || item.domain === selectedDomain;
+    return titleMatch && domainMatch;
   });
 
   renderCards(filtered);
 }
 
-searchInput.addEventListener('input', filterData);
-domainFilter.addEventListener('change', filterData);
+if (searchInput) searchInput.addEventListener('input', filterData);
+if (domainFilter) domainFilter.addEventListener('change', filterData);
