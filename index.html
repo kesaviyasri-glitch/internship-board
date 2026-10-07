@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internship Board</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Internship Listings</h1>
+    <!-- Search Bar & Filters -->
+    <div class="filter-container">
+      <input type="text" id="searchInput" placeholder="Search internships..." aria-label="Search internships">
+      <select id="domainFilter" aria-label="Filter by domain">
+        <option value="all">All Domains</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Design">Design</option>
+        <option value="Marketing">Marketing</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <!-- Internship Cards ikkada render aagum -->
+    <div id="internshipContainer" class="grid-container"></div>
+    <p id="emptyState" class="hidden">No internships found.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  padding: 20px;
+  background-color: #f4f4f9;
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+input, select {
+  padding: 10px;
+  font-size: 16px;
+  flex: 1;
+  min-width: 200px;
+}
+
+/* Grid layout for cards */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile view */
+  gap: 20px;
+}
+
+/* Tablet view */
+@media (min-width: 600px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop view */
+@media (min-width: 900px) {
+  .grid-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.hidden {
+  display: none;
+}
